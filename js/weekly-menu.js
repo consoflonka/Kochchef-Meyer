@@ -7,6 +7,7 @@ class WeeklyMenuManager {
     constructor() {
         this.weeklyData = null;
         this.currentWeek = null;
+        this.currentWeekIndex = 0;
         this.selectedDay = null;
         this.init();
     }
@@ -39,13 +40,17 @@ class WeeklyMenuManager {
         const today = new Date();
         const todayStr = today.toISOString().split('T')[0];
 
-        // Finde die aktuelle Woche
-        this.currentWeek = this.weeklyData.weeks.find(week => {
+        // Finde die aktuelle Woche und Index
+        const weekIndex = this.weeklyData.weeks.findIndex(week => {
             return todayStr >= week.startDate && todayStr <= week.endDate;
         });
 
-        // Fallback: Nimm die erste Woche wenn keine aktuelle gefunden
-        if (!this.currentWeek && this.weeklyData.weeks.length > 0) {
+        if (weekIndex !== -1) {
+            this.currentWeekIndex = weekIndex;
+            this.currentWeek = this.weeklyData.weeks[weekIndex];
+        } else if (this.weeklyData.weeks.length > 0) {
+            // Fallback: Nimm die erste Woche
+            this.currentWeekIndex = 0;
             this.currentWeek = this.weeklyData.weeks[0];
         }
 
@@ -82,6 +87,12 @@ class WeeklyMenuManager {
         return names[dayKey] || dayKey;
     }
 
+    getMonthName() {
+        if (!this.currentWeek) return '';
+        const date = new Date(this.currentWeek.startDate);
+        return date.toLocaleDateString('de-DE', { month: 'long' });
+    }
+
     getDateForDay(dayKey) {
         if (!this.currentWeek) return '';
 
@@ -91,10 +102,7 @@ class WeeklyMenuManager {
         const date = new Date(startDate);
         date.setDate(startDate.getDate() + dayIndex);
 
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-
-        return `${day}.${month}.`;
+        return date.getDate().toString();
     }
 
     isToday(dayKey) {
@@ -122,7 +130,17 @@ class WeeklyMenuManager {
             <div class="weekly-menu-section">
                 <div class="section-header-inline">
                     <h2>🍽️ Menü der Woche</h2>
-                    <p class="week-range">${this.formatWeekRange()}</p>
+                </div>
+
+                <!-- Week Navigation -->
+                <div class="week-navigation">
+                    <button class="week-nav-btn" onclick="weeklyMenu.previousWeek()" ${this.currentWeekIndex === 0 ? 'disabled' : ''}>
+                        ← Vorherige Woche
+                    </button>
+                    <div class="week-info">${this.formatWeekRange()}</div>
+                    <button class="week-nav-btn" onclick="weeklyMenu.nextWeek()" ${this.currentWeekIndex >= this.weeklyData.weeks.length - 1 ? 'disabled' : ''}>
+                        Nächste Woche →
+                    </button>
                 </div>
 
                 <!-- Day Selector -->
@@ -142,7 +160,7 @@ class WeeklyMenuManager {
                 <!-- Dishes Display -->
                 <div class="weekly-dishes">
                     <div class="weekly-dishes-header">
-                        <h3>${this.getDayNameGerman(this.selectedDay)}, ${this.getDateForDay(this.selectedDay).replace('.', '')} Januar</h3>
+                        <h3>${this.getDayNameGerman(this.selectedDay)}, ${this.getDateForDay(this.selectedDay)}. ${this.getMonthName()}</h3>
                     </div>
                     <div class="weekly-dishes-grid">
                         ${this.renderDishes(this.selectedDay)}
@@ -172,6 +190,22 @@ class WeeklyMenuManager {
         const year = start.getFullYear();
 
         return `${startDay}. - ${endDay}. ${month} ${year}`;
+    }
+
+    previousWeek() {
+        if (this.currentWeekIndex > 0) {
+            this.currentWeekIndex--;
+            this.currentWeek = this.weeklyData.weeks[this.currentWeekIndex];
+            this.renderWeeklyMenu();
+        }
+    }
+
+    nextWeek() {
+        if (this.currentWeekIndex < this.weeklyData.weeks.length - 1) {
+            this.currentWeekIndex++;
+            this.currentWeek = this.weeklyData.weeks[this.currentWeekIndex];
+            this.renderWeeklyMenu();
+        }
     }
 
     selectDay(day) {
