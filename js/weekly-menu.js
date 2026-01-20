@@ -37,8 +37,16 @@ class WeeklyMenuManager {
     }
 
     setCurrentDay() {
-        const today = new Date();
-        const todayStr = today.toISOString().split('T')[0];
+        // Deutsche Zeit verwenden
+        const now = new Date();
+        const germanTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));
+
+        // Nach 15:00 Uhr auf nächsten Tag springen (Restaurant geschlossen)
+        if (germanTime.getHours() >= 15) {
+            germanTime.setDate(germanTime.getDate() + 1);
+        }
+
+        const todayStr = germanTime.toISOString().split('T')[0];
 
         // Finde die aktuelle Woche und Index
         const weekIndex = this.weeklyData.weeks.findIndex(week => {
@@ -55,7 +63,7 @@ class WeeklyMenuManager {
         }
 
         // Setze den aktuellen Tag
-        const dayOfWeek = today.getDay(); // 0 = Sonntag, 1 = Montag, etc.
+        const dayOfWeek = germanTime.getDay(); // 0 = Sonntag, 1 = Montag, etc.
         const dayMap = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         this.selectedDay = dayMap[dayOfWeek];
 
@@ -150,9 +158,8 @@ class WeeklyMenuManager {
                             class="day-btn ${this.selectedDay === day ? 'active' : ''} ${this.isToday(day) ? 'today' : ''}"
                             data-day="${day}"
                             onclick="weeklyMenu.selectDay('${day}')">
-                            <span class="day-short">${this.getDayNameShort(day)}</span>
+                            ${this.isToday(day) ? '<span class="today-badge">Heute</span>' : '<span class="day-short">${this.getDayNameShort(day)}</span>'}
                             <span class="day-date">${this.getDateForDay(day)}</span>
-                            ${this.isToday(day) ? '<span class="today-badge">Heute</span>' : ''}
                         </button>
                     `).join('')}
                 </div>
@@ -196,6 +203,7 @@ class WeeklyMenuManager {
         if (this.currentWeekIndex > 0) {
             this.currentWeekIndex--;
             this.currentWeek = this.weeklyData.weeks[this.currentWeekIndex];
+            this.selectedDay = 'monday'; // Immer auf Montag zurücksetzen
             this.renderWeeklyMenu();
         }
     }
@@ -204,6 +212,7 @@ class WeeklyMenuManager {
         if (this.currentWeekIndex < this.weeklyData.weeks.length - 1) {
             this.currentWeekIndex++;
             this.currentWeek = this.weeklyData.weeks[this.currentWeekIndex];
+            this.selectedDay = 'monday'; // Immer auf Montag zurücksetzen
             this.renderWeeklyMenu();
         }
     }
