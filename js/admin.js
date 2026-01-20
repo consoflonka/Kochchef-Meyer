@@ -6,17 +6,21 @@
 class AdminPanel {
     constructor() {
         this.menuData = null;
+        this.weeklyData = null;
+        this.selectedWeek = null;
         this.init();
     }
 
     async init() {
         await this.loadMenu();
+        await this.loadWeeklyMenu();
         this.setupNavigation();
         this.setupForms();
         this.updateStats();
         this.renderDishes();
         this.renderCategories();
         this.populateCategorySelects();
+        this.populateWeekSelector();
     }
 
     // ==================== Data Loading ====================
@@ -437,6 +441,180 @@ class AdminPanel {
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
+    }
+
+    // ==================== Weekly Menu ====================
+
+    async loadWeeklyMenu() {
+        try {
+            const localData = localStorage.getItem('kochchef_weekly_menu');
+            if (localData) {
+                this.weeklyData = JSON.parse(localData);
+            } else {
+                const response = await fetch('data/weekly-menu.json');
+                this.weeklyData = await response.json();
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden des Wochenmenüs:', error);
+        }
+    }
+
+    saveWeeklyMenu() {
+        this.weeklyData.lastUpdated = new Date().toISOString().split('T')[0];
+        localStorage.setItem('kochchef_weekly_menu', JSON.stringify(this.weeklyData));
+        this.showToast('Wochenplan gespeichert!', 'success');
+    }
+
+    populateWeekSelector() {
+        const selector = document.getElementById('week-selector');
+        if (!selector || !this.weeklyData) return;
+
+        selector.innerHTML = '<option value="">Woche auswählen...</option>';
+
+        this.weeklyData.weeks.forEach((week, index) => {
+            const start = new Date(week.startDate).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+            const end = new Date(week.endDate).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            selector.innerHTML += `<option value="${index}">${start} - ${end}</option>`;
+        });
+
+        selector.addEventListener('change', (e) => {
+            const index = parseInt(e.target.value);
+            if (!isNaN(index)) {
+                this.selectedWeek = this.weeklyData.weeks[index];
+                this.renderWeeklyPlan();
+            }
+        });
+    }
+
+    renderWeeklyPlan() {
+        const container = document.getElementById('weekly-plan-container');
+        if (!container || !this.selectedWeek) return;
+
+        const days = [
+            { key: 'monday', name: 'Montag' },
+            { key: 'tuesday', name: 'Dienstag' },
+            { key: 'wednesday', name: 'Mittwoch' },
+            { key: 'thursday', name: 'Donnerstag' },
+            { key: 'friday', name: 'Freitag' }
+        ];
+
+        let html = '<div class="weekly-plan-grid" style="display: grid; gap: 20px;">';
+
+        days.forEach(day => {
+            const dishes = this.selectedWeek.days[day.key] || [];
+
+            html += `
+                <div class="day-plan" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--admin-primary);">
+                        <h3 style="margin: 0; color: var(--admin-primary);">${day.name}</h3>
+                        <button class="btn btn-primary" onclick="admin.addDishToDay('${day.key}')" style="padding: 8px 15px; font-size: 0.85rem;">+ Gericht</button>
+                    </div>
+                    <div class="day-dishes">
+                        ${dishes.map((dish, index) => `
+                            <div style="padding: 12px; margin-bottom: 10px; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--admin-secondary);">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 5px;">
+                                    <strong style="flex: 1;">${dish.name}</strong>
+                                    <span style="color: var(--admin-secondary); font-weight: 700; margin-left: 10px;">${dish.price.toFixed(2)} €</span>
+                                    <button class="btn-icon btn-delete" onclick="admin.removeDishFromDay('${day.key}', ${index})" style="margin-left: 10px;">🗑️</button>
+                                </div>
+                                <div style="font-size: 0.85rem; color: #666;">${dish.ingredients}</div>
+                                ${dish.vegetarian ? '<span style="font-size: 0.75rem; padding: 2px 8px; background: #d4edda; color: #155724; border-radius: 10px; margin-right: 5px;">🥬</span>' : ''}
+                                ${dish.spicy ? '<span style="font-size: 0.75rem; padding: 2px 8px; background: #f8d7da; color: #721c24; border-radius: 10px;">🌶️</span>' : ''}
+                            </div>
+                        `).join('') || '<p style="color: #999; text-align: center; padding: 20px;">Keine Gerichte</p>'}
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    addDishToDay(dayKey) {
+        if (!this.selectedWeek || !this.menuData) return;
+
+        // Erstelle eine Liste aller Gerichte
+        let allDishes = [];
+        this.menuData.categories.forEach(cat => {
+            cat.dishes.forEach(dish => {
+                allDishes.push({
+                    ...dish,
+                    categoryName: cat.name
+                });
+            });
+        });
+
+        // Einfaches Prompt für die Demo (in Produktion: Modal mit Suche)
+        const dishNames = allDishes.map((d, i) => `${i + 1}. ${d.name} (${d.categoryName}) - ${d.price.toFixed(2)}€`).join('\n');
+        const selection = prompt(`Gericht auswählen (Nummer eingeben):\n\n${dishNames.substring(0, 1000)}...`);
+
+        if (selection) {
+            const index = parseInt(selection) - 1;
+            if (index >= 0 && index < allDishes.length) {
+                const selectedDish = allDishes[index];
+
+                if (!this.selectedWeek.days[dayKey]) {
+                    this.selectedWeek.days[dayKey] = [];
+                }
+
+                this.selectedWeek.days[dayKey].push(selectedDish);
+                this.saveWeeklyMenu();
+                this.renderWeeklyPlan();
+            }
+        }
+    }
+
+    removeDishFromDay(dayKey, index) {
+        if (!this.selectedWeek || !confirm('Gericht wirklich entfernen?')) return;
+
+        this.selectedWeek.days[dayKey].splice(index, 1);
+        this.saveWeeklyMenu();
+        this.renderWeeklyPlan();
+    }
+
+    openAddWeekModal() {
+        const startDate = prompt('Startdatum (YYYY-MM-DD):');
+        if (!startDate) return;
+
+        const start = new Date(startDate);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 4); // Freitag
+
+        const endDate = end.toISOString().split('T')[0];
+
+        const newWeek = {
+            id: `2026-w${this.weeklyData.weeks.length + 1}`,
+            startDate: startDate,
+            endDate: endDate,
+            days: {
+                monday: [],
+                tuesday: [],
+                wednesday: [],
+                thursday: [],
+                friday: []
+            }
+        };
+
+        this.weeklyData.weeks.push(newWeek);
+        this.saveWeeklyMenu();
+        this.populateWeekSelector();
+        this.showToast('Neue Woche hinzugefügt!', 'success');
+    }
+
+    exportWeeklyMenu() {
+        const dataStr = JSON.stringify(this.weeklyData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `kochchef-weekly-menu-${this.weeklyData.lastUpdated}.json`;
+        a.click();
+
+        URL.revokeObjectURL(url);
+        this.showToast('Wochenplan exportiert!', 'success');
     }
 }
 

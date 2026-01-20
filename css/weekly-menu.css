@@ -1,0 +1,253 @@
+/* ========================================
+   Weekly Menu Styles
+   ======================================== */
+
+.weekly-menu-section {
+    background: var(--white);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.section-header-inline {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section-header-inline h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.week-range {
+    font-size: 1rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Day Selector */
+.day-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.day-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 12px 10px;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+.day-btn:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.day-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(44, 85, 48, 0.3);
+}
+
+.day-btn.today {
+    border-color: var(--secondary-color);
+}
+
+.day-short {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.day-date {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.today-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--secondary-color);
+    color: var(--white);
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* Dishes Display */
+.weekly-dishes {
+    margin-bottom: 30px;
+}
+
+.weekly-dishes-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.weekly-dishes-header h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.weekly-dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.weekly-dish-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.weekly-dish-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.dish-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.dish-header h4 {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 0;
+    flex: 1;
+}
+
+.dish-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    white-space: nowrap;
+}
+
+.dish-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.badge-veg {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-spicy {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.dish-ingredients {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Footer */
+.weekly-menu-footer {
+    text-align: center;
+    padding-top: 25px;
+    border-top: 1px solid #dee2e6;
+}
+
+.weekly-menu-footer p {
+    margin-bottom: 15px;
+    color: var(--text-light);
+}
+
+.weekly-menu-footer .btn {
+    margin: 5px;
+}
+
+.no-dishes {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .weekly-menu-section {
+        padding: 25px 20px;
+    }
+
+    .section-header-inline h2 {
+        font-size: 1.5rem;
+    }
+
+    .day-selector {
+        gap: 6px;
+    }
+
+    .day-btn {
+        min-width: 60px;
+        padding: 10px 6px;
+    }
+
+    .day-short {
+        font-size: 0.9rem;
+    }
+
+    .day-date {
+        font-size: 0.75rem;
+    }
+
+    .weekly-dishes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weekly-menu-footer .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .dish-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dish-price {
+        font-size: 1.1rem;
+    }
+}

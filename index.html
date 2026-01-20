@@ -7,6 +7,7 @@
     <meta name="keywords" content="Kochchef Meyer, Mittagstisch, Wuppertal, Vohwinkel, Catering, Lieferservice, frische Küche">
     <title>Kochchef Meyer | Frisch gekocht in Wuppertal</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/weekly-menu.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
@@ -41,6 +42,18 @@
             <a href="#kontakt" class="btn btn-primary">Jetzt bestellen</a>
         </div>
     </header>
+
+    <!-- Weekly Menu Section -->
+    <section class="section">
+        <div class="container">
+            <div id="weekly-menu-container">
+                <!-- Wochenplan wird per JavaScript geladen -->
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <p>Wochenplan wird geladen...</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Über uns Section -->
     <section id="ueber-uns" class="section">
@@ -296,5 +309,6 @@
             }
         });
     </script>
+    <script src="js/weekly-menu.js"></script>
 </body>
 </html>

@@ -20,6 +20,7 @@
             </div>
             <nav class="sidebar-nav">
                 <a href="#" class="nav-item active" data-section="dashboard">📊 Dashboard</a>
+                <a href="#" class="nav-item" data-section="weekly">📅 Wochenplan</a>
                 <a href="#" class="nav-item" data-section="dishes">🍽️ Gerichte</a>
                 <a href="#" class="nav-item" data-section="categories">📁 Kategorien</a>
                 <a href="#" class="nav-item" data-section="export">💾 Export/Import</a>
@@ -68,6 +69,23 @@
                 </div>
             </section>
 
+            <!-- Weekly Menu Section -->
+            <section id="weekly" class="section">
+                <div class="section-header">
+                    <h2>Wochenplan verwalten</h2>
+                    <div>
+                        <select id="week-selector" style="padding: 10px; margin-right: 10px; border-radius: 8px; border: 1px solid #dee2e6;">
+                            <option value="">Woche auswählen...</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="admin.openAddWeekModal()">+ Neue Woche</button>
+                    </div>
+                </div>
+
+                <div id="weekly-plan-container">
+                    <p style="text-align: center; padding: 40px; color: #666;">Bitte wählen Sie eine Woche aus</p>
+                </div>
+            </section>
+
             <!-- Dishes Section -->
             <section id="dishes" class="section">
                 <div class="section-header">
@@ -104,9 +122,15 @@
                 <h2>Export / Import</h2>
 
                 <div class="export-box">
-                    <h3>📤 Menü exportieren</h3>
-                    <p>Exportiere das aktuelle Menü als JSON-Datei. Diese Datei kannst du dann auf deinen Webserver hochladen.</p>
-                    <button class="btn btn-primary" onclick="admin.exportMenu()">JSON herunterladen</button>
+                    <h3>📤 Catering-Menü exportieren</h3>
+                    <p>Exportiere das aktuelle Catering-Menü als JSON-Datei.</p>
+                    <button class="btn btn-primary" onclick="admin.exportMenu()">Catering-Menü herunterladen</button>
+                </div>
+
+                <div class="export-box">
+                    <h3>📅 Wochenplan exportieren</h3>
+                    <p>Exportiere den aktuellen Wochenplan als JSON-Datei.</p>
+                    <button class="btn btn-primary" onclick="admin.exportWeeklyMenu()">Wochenplan herunterladen</button>
                 </div>
 
                 <div class="import-box">

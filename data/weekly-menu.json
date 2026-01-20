@@ -1,0 +1,279 @@
+{
+  "lastUpdated": "2026-01-20",
+  "weeks": [
+    {
+      "id": "2026-w3",
+      "startDate": "2026-01-19",
+      "endDate": "2026-01-23",
+      "days": {
+        "monday": [
+          {
+            "id": 64,
+            "name": "Klassische Hühnersuppe",
+            "price": 7.50,
+            "ingredients": "Huhn, Suppengrün, Salz, Pfeffer, Butter, Nudel",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 14,
+            "name": "Bohnengemüse mit Kassler",
+            "price": 7.50,
+            "ingredients": "grüne Bohnen, Kassler, Kartoffel, Zwiebel, Schinkenspeck, Soßenbinder, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 6,
+            "name": "Nudeln mit Schinkensahnesoße",
+            "price": 9.00,
+            "ingredients": "Nudel, Sahne, Kochschinken, Salz, Pfeffer, Käse, Olivenöl",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ],
+        "tuesday": [
+          {
+            "id": 62,
+            "name": "Kartoffelsuppe mit Rinderhack",
+            "price": 7.50,
+            "ingredients": "Kartoffel, Rinderhack, Schinkenspeck, Suppengrün, Knoblauch, Sahne, Salz, Pfeffer, Olivenöl",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 44,
+            "name": "Gemüse Hähnchen Eintopf",
+            "price": 7.50,
+            "ingredients": "Hühnchen, Olivenöl, Zwiebeln, Knoblauch, Chili, Tomatenmark, Zucchini, Kichererbsen, rote Linsen, passierte Tomate, Zimt, Honig, Rosinen, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 5,
+            "name": "Kochchef Chili",
+            "price": 8.50,
+            "ingredients": "Rinderhack, Chili, Zwiebel, rote und weiße Bohnen, Tomate, Knoblauch, Salz, Pfeffer, Paprikapulver",
+            "vegetarian": false,
+            "spicy": true
+          }
+        ],
+        "wednesday": [
+          {
+            "id": 5,
+            "name": "Gulaschsuppe",
+            "price": 8.00,
+            "ingredients": "Rindfleisch, Zwiebel, Tomate, Paprika, Sahne, Salz, Pfeffer, Chili, Paprikapulver, Knoblauch, Olivenöl, Zucker",
+            "vegetarian": false,
+            "spicy": true
+          },
+          {
+            "id": 24,
+            "name": "Hühnergeschnetzeltes schottische Art",
+            "price": 7.50,
+            "ingredients": "Hühnchen, Porree, Zwiebel, Kartoffel, Olivenöl, Milch, Butter, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 86,
+            "name": "Nudeln mit pikanter Zuchini – Tomaten – Soße",
+            "price": 8.00,
+            "ingredients": "Nudeln, Zucchini, Tomate, Creme frâiche, Olivenöl, Pfeffer, Salz, Knoblauch, Petersilie, Harissa",
+            "vegetarian": true,
+            "spicy": true
+          }
+        ],
+        "thursday": [
+          {
+            "id": 38,
+            "name": "Pizza – Suppe",
+            "price": 7.50,
+            "ingredients": "Rinderhack, Zwiebel, Paprika, Champignon, Mais, Tomate, Sahne, Milch, Käse",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 11,
+            "name": "Wirsing mit Rinderhack",
+            "price": 7.50,
+            "ingredients": "Wirsing, Kartoffel, Zwiebel, Schinkenspeck, Schmalz, Rinderhack, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 26,
+            "name": "African Chicken",
+            "price": 8.50,
+            "ingredients": "Hühnchen, Chili, Knoblauch, Zwiebel, Paprika, O-Saft, Kokos, Sojasoße, Paprikapulver, Salz, Pfeffer, Curry, Soßenbinder",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ],
+        "friday": [
+          {
+            "id": 30,
+            "name": "Pikante Asien Suppe mit Kokos und Hühnchen",
+            "price": 7.50,
+            "ingredients": "Hühnchen, Frühlingszwiebel, Ingwer, Kokosmilch, Sojasoße, Currypaste, Paprika, Champignons, Zitronengras, Nudeln, Chili, Salz, Pfeffer, Erdnussöl",
+            "vegetarian": false,
+            "spicy": true
+          },
+          {
+            "id": 5,
+            "name": "Rosmarin Kartoffeln",
+            "price": 7.00,
+            "ingredients": "Kartoffel, Zwiebel, Rosmarin, Olivenöl, Salz, wechselnde Dipps",
+            "vegetarian": true,
+            "spicy": false
+          },
+          {
+            "id": 89,
+            "name": "Kalbsgeschnetzeltes mit Pfifferlingen",
+            "price": 11.00,
+            "ingredients": "Kalb, Pfifferlinge, Zwiebel, Olivenöl, Wein, Sahne, Pfefferkörner, Salz, Pfeffer, Soßenbinder, Spätzle",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "2026-w4",
+      "startDate": "2026-01-26",
+      "endDate": "2026-01-30",
+      "days": {
+        "monday": [
+          {
+            "id": 20,
+            "name": "Currysuppe",
+            "price": 8.00,
+            "ingredients": "Kokosmilch, Hühnchen, Frühlingszwiebel, Paprika, Ingwer, Olivenöl, Curry, Mehl, Salz",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 12,
+            "name": "Pichelsteiner Eintopf",
+            "price": 7.50,
+            "ingredients": "Rindfleisch, Zwiebel, Porree, Sellerie, Karotte, Kartoffel, Olivenöl, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 87,
+            "name": "Hähnchen – Blumenkohl – Geschnetzeltes mit Reis",
+            "price": 9.00,
+            "ingredients": "Hähnchen, Olivenöl, Blumenkohl, Reis, Knoblauch, Sahne, Schmelzkäse, Pfeffer, Salz, Chili, Paprikapulver",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ],
+        "tuesday": [
+          {
+            "id": 16,
+            "name": "Graupensuppe mit Hackbällchen",
+            "price": 7.50,
+            "ingredients": "Graupen, Kartoffel, Suppengrün, Schinkenspeck, Hackbällchen, Salz, Pfeffer, Sahne",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 51,
+            "name": "Süßkartoffel mit Curry und roten Linsen",
+            "price": 8.00,
+            "ingredients": "Süßkartoffel, Paprika, Knoblauch, Zwiebel, Olivenöl, Tomatenmark, Kokosmilch, rote Linsen, Salz, Pfeffer, Curry, Garam Masala, Kurkuma",
+            "vegetarian": true,
+            "spicy": false
+          },
+          {
+            "id": 13,
+            "name": "Gnocchi mit Rindfleischstreifen scharfer Tomatensoße",
+            "price": 9.00,
+            "ingredients": "Rindfleisch, Tomate, Gnocchi, Salz, Chili, Olivenöl, Knoblauch, Rohrzucker",
+            "vegetarian": false,
+            "spicy": true
+          }
+        ],
+        "wednesday": [
+          {
+            "id": 52,
+            "name": "Blumenkohl – Käse – Suppe",
+            "price": 8.00,
+            "ingredients": "Blumenkohl, Käse, Creme frâiche, Rinderhack, Zwiebeln, Kräuter, Salz, Pfeffer",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 3,
+            "name": "Ostfriesentopf",
+            "price": 8.00,
+            "ingredients": "Rinderhack, Brokkoli, Blumenkohl, Porree, Karotte, Sellerie, Kartoffel, Schinkenspeck, Zwiebel, Schmelzkäse, Olivenöl, Salz, Pfeffer, Soßenbinder",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 110,
+            "name": "Hühnchen mit Frischkäse und Tomaten",
+            "price": 8.00,
+            "ingredients": "Hühnchen, Frischkäse, Sojasauce, Honig, Zironensaft, Milch, getr. Tomaten, Salz, Pfeffer, Chili, Knoblauch, Olivenöl, Parmesan",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ],
+        "thursday": [
+          {
+            "id": 28,
+            "name": "Rosenkohlcremesuppe",
+            "price": 7.00,
+            "ingredients": "Rosenkohl, Zwiebel, Butter, Sahne, Petersilie, Salz, Pfeffer, Zitrone, Kartoffeln, Kassler",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 1,
+            "name": "Grünkohl mit Mettwurst",
+            "price": 7.50,
+            "ingredients": "Grünkohl, Schmalz, Schinkenspeck, Zwiebel, Salz, Pfeffer, Mettwurst, Kartoffel",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 123,
+            "name": "Kochchef Schaschlik",
+            "price": 11.00,
+            "ingredients": "Rindfleisch, Pute, Schweinefilet, Schinkenspeck, Paprika, Zwiebel, Tomate, Honig, Reis, Kreuzkümmel, Curry, Chili, Knoblauch, Olivenöl, Salz Pfeffer, Paprikapulver",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ],
+        "friday": [
+          {
+            "id": 58,
+            "name": "Scharfe Entensuppe",
+            "price": 8.50,
+            "ingredients": "Ente, Chili, Lauchzwiebel, Champignon, Basilikum, Knoblauch, Kokosmilch, Zucker, Salz, Pfeffer, Erdnussöl, Nudeln, Bambussprosse",
+            "vegetarian": false,
+            "spicy": true
+          },
+          {
+            "id": 13,
+            "name": "Bauerntopf",
+            "price": 8.00,
+            "ingredients": "Rinderhack, Kartoffel, Zwiebel, Paprika, Olivenöl, Tomate, Knoblauch, Salz, Pfeffer, Paprikapulver, Soßenbinder",
+            "vegetarian": false,
+            "spicy": false
+          },
+          {
+            "id": 92,
+            "name": "Schweinebraten mit Klöße und Rotkohl",
+            "price": 11.00,
+            "ingredients": "Schweinenacken, Zwiebel, Klöße, Salz, Pfeffer, Paprikapulver, Rotkohl",
+            "vegetarian": false,
+            "spicy": false
+          }
+        ]
+      }
+    }
+  ]
+}
