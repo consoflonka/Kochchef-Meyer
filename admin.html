@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin - Menü Verwaltung | Kochchef Meyer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🍳 Admin</h1>
+                <p>Kochchef Meyer</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">📊 Dashboard</a>
+                <a href="#" class="nav-item" data-section="dishes">🍽️ Gerichte</a>
+                <a href="#" class="nav-item" data-section="categories">📁 Kategorien</a>
+                <a href="#" class="nav-item" data-section="export">💾 Export/Import</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="btn-back">← Zur Webseite</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-total">0</div>
+                        <div class="stat-label">Gerichte gesamt</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-categories">0</div>
+                        <div class="stat-label">Kategorien</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-vegetarian">0</div>
+                        <div class="stat-label">Vegetarisch</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-spicy">0</div>
+                        <div class="stat-label">Pikant</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>ℹ️ So funktioniert die Verwaltung</h3>
+                    <ol>
+                        <li>Bearbeite Gerichte im Bereich "Gerichte"</li>
+                        <li>Änderungen werden automatisch im Browser gespeichert (localStorage)</li>
+                        <li>Im Bereich "Export/Import" kannst du die Daten als JSON exportieren</li>
+                        <li>Ersetze die <code>data/menu.json</code> auf deinem Webserver mit der exportierten Datei</li>
+                    </ol>
+                </div>
+
+                <div class="last-updated">
+                    <strong>Letztes Update:</strong> <span id="last-updated">-</span>
+                </div>
+            </section>
+
+            <!-- Dishes Section -->
+            <section id="dishes" class="section">
+                <div class="section-header">
+                    <h2>Gerichte verwalten</h2>
+                    <button class="btn btn-primary" onclick="admin.openAddDishModal()">+ Neues Gericht</button>
+                </div>
+
+                <div class="filter-bar">
+                    <select id="category-filter">
+                        <option value="all">Alle Kategorien</option>
+                    </select>
+                    <input type="text" id="dish-search" placeholder="Gericht suchen...">
+                </div>
+
+                <div id="dishes-list" class="dishes-list">
+                    <!-- Gerichte werden per JS geladen -->
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categories" class="section">
+                <div class="section-header">
+                    <h2>Kategorien verwalten</h2>
+                    <button class="btn btn-primary" onclick="admin.openAddCategoryModal()">+ Neue Kategorie</button>
+                </div>
+
+                <div id="categories-list" class="categories-list">
+                    <!-- Kategorien werden per JS geladen -->
+                </div>
+            </section>
+
+            <!-- Export/Import Section -->
+            <section id="export" class="section">
+                <h2>Export / Import</h2>
+
+                <div class="export-box">
+                    <h3>📤 Menü exportieren</h3>
+                    <p>Exportiere das aktuelle Menü als JSON-Datei. Diese Datei kannst du dann auf deinen Webserver hochladen.</p>
+                    <button class="btn btn-primary" onclick="admin.exportMenu()">JSON herunterladen</button>
+                </div>
+
+                <div class="import-box">
+                    <h3>📥 Menü importieren</h3>
+                    <p>Importiere eine JSON-Datei um das Menü zu überschreiben.</p>
+                    <input type="file" id="import-file" accept=".json">
+                    <button class="btn btn-secondary" onclick="admin.importMenu()">Importieren</button>
+                </div>
+
+                <div class="reset-box">
+                    <h3>🔄 Auf Original zurücksetzen</h3>
+                    <p>Lädt das Original-Menü aus der JSON-Datei und verwirft alle lokalen Änderungen.</p>
+                    <button class="btn btn-danger" onclick="admin.resetToOriginal()">Zurücksetzen</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal für Gericht bearbeiten/hinzufügen -->
+    <div id="dish-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Gericht bearbeiten</h3>
+                <button class="modal-close" onclick="admin.closeModal()">&times;</button>
+            </div>
+            <form id="dish-form">
+                <input type="hidden" id="dish-id">
+                <input type="hidden" id="dish-category-id">
+
+                <div class="form-group">
+                    <label for="dish-name">Name *</label>
+                    <input type="text" id="dish-name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dish-price">Preis (€) *</label>
+                        <input type="number" id="dish-price" step="0.50" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dish-category">Kategorie *</label>
+                        <select id="dish-category" required></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dish-ingredients">Zutaten</label>
+                    <textarea id="dish-ingredients" rows="3" placeholder="Kommagetrennte Liste der Zutaten"></textarea>
+                </div>
+
+                <div class="form-row checkboxes">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="dish-vegetarian">
+                        <span>🥬 Vegetarisch</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="dish-spicy">
+                        <span>🌶️ Pikant</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="admin.closeModal()">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal für Kategorie -->
+    <div id="category-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="category-modal-title">Kategorie bearbeiten</h3>
+                <button class="modal-close" onclick="admin.closeCategoryModal()">&times;</button>
+            </div>
+            <form id="category-form">
+                <input type="hidden" id="category-id">
+
+                <div class="form-group">
+                    <label for="category-name">Name *</label>
+                    <input type="text" id="category-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category-icon">Icon (Emoji)</label>
+                    <input type="text" id="category-icon" placeholder="z.B. 🍲">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="admin.closeCategoryModal()">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

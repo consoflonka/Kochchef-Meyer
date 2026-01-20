@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kochchef Meyer Catering - Wir kochen für Ihre Feier! Hausmannskost für Geburtstage, Firmenfeiern und Events ab 20 Personen in Wuppertal.">
+    <title>Catering | Kochchef Meyer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/catering.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar legal-navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Kochchef Meyer</a>
+            <button class="nav-toggle" aria-label="Navigation öffnen">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Start</a></li>
+                <li><a href="index.html#ueber-uns">Über uns</a></li>
+                <li><a href="index.html#angebot">Angebot</a></li>
+                <li><a href="catering.html" class="active">Catering</a></li>
+                <li><a href="index.html#kontakt">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="catering-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Catering Service</h1>
+            <p class="tagline">Wir kochen für Ihre Feier - frisch wie bei Muttern!</p>
+        </div>
+    </header>
+
+    <!-- Catering Info Section -->
+    <section class="section catering-info-section">
+        <div class="container">
+            <div class="catering-intro">
+                <div class="intro-text">
+                    <h2>Ihr Event - Unsere Küche</h2>
+                    <p>Ob Geburtstag, Firmenevent, Jubiläum oder Familienfeier - wir verwöhnen Ihre Gäste mit <strong>leckerer Hausmannskost</strong>. Unsere Gerichte werden frisch zubereitet und mit Liebe gekocht.</p>
+
+                    <div class="catering-highlights">
+                        <div class="highlight">
+                            <span class="highlight-icon">👥</span>
+                            <span class="highlight-text">Ab 20 Personen</span>
+                        </div>
+                        <div class="highlight">
+                            <span class="highlight-icon">🍲</span>
+                            <span class="highlight-text">Eintöpfe, Braten & mehr</span>
+                        </div>
+                        <div class="highlight">
+                            <span class="highlight-icon">📋</span>
+                            <span class="highlight-text">Individuelle Angebote</span>
+                        </div>
+                        <div class="highlight">
+                            <span class="highlight-icon">🚗</span>
+                            <span class="highlight-text">Lieferung möglich</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="intro-cta">
+                    <div class="cta-box">
+                        <h3>Jetzt anfragen!</h3>
+                        <p>Wir erstellen Ihnen gerne ein individuelles Angebot.</p>
+                        <a href="tel:+491748451470" class="btn btn-primary">
+                            📞 0174 845 14 70
+                        </a>
+                        <a href="mailto:Meyer.Design@gmx.de" class="btn btn-secondary">
+                            ✉️ E-Mail schreiben
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Filter Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Unsere Catering-Auswahl</h2>
+            <p class="menu-subtitle">Über 150 Gerichte zur Auswahl - von herzhaften Eintöpfen bis zu feinen Hauptgerichten</p>
+
+            <!-- Filter Controls -->
+            <div class="menu-controls">
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">Alle</button>
+                    <button class="filter-btn" data-category="eintoepfe">🍲 Eintöpfe</button>
+                    <button class="filter-btn" data-category="suppen">🥣 Suppen</button>
+                    <button class="filter-btn" data-category="vegetarisch">🥬 Vegetarisch</button>
+                    <button class="filter-btn" data-category="hauptgerichte">🍽️ Hauptgerichte</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="menu-search" placeholder="Gericht suchen...">
+                </div>
+                <div class="dietary-filters">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-vegetarian">
+                        <span>🥬 Nur vegetarisch</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="filter-spicy">
+                        <span>🌶️ Pikant</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-container" class="menu-grid">
+                <!-- Gerichte werden per JavaScript geladen -->
+                <div class="loading">Menü wird geladen...</div>
+            </div>
+
+            <!-- Dish Count -->
+            <div class="dish-count">
+                <span id="visible-count">0</span> Gerichte angezeigt
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="section booking-section">
+        <div class="container">
+            <h2 class="section-title">So funktioniert's</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Anfrage</h3>
+                    <p>Kontaktieren Sie uns telefonisch oder per E-Mail mit Ihren Wünschen.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Beratung</h3>
+                    <p>Wir besprechen gemeinsam Menü, Personenzahl und Ihre Vorstellungen.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Angebot</h3>
+                    <p>Sie erhalten ein individuelles Angebot - transparent und fair.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Genuss</h3>
+                    <p>Wir liefern frisch gekocht - Sie und Ihre Gäste genießen!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Kochchef Meyer</h3>
+                    <p>Wir kochen für Sie täglich frisch!</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="impressum.html">Impressum</a></li>
+                        <li><a href="datenschutz.html">Datenschutzerklärung</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontakt</h4>
+                    <p>Kaiserstraße 18<br>42329 Wuppertal</p>
+                    <p><a href="tel:+491748451470">0174 845 14 70</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Kochchef Meyer. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/menu.js"></script>
+    <script>
+        // Mobile Navigation
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
