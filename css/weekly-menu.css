@@ -72,8 +72,8 @@
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
-    overflow-x: auto;
-    padding-bottom: 10px;
+    justify-content: center;
+    flex-wrap: nowrap;
 }
 
 .day-btn {

@@ -153,15 +153,22 @@ class WeeklyMenuManager {
 
                 <!-- Day Selector -->
                 <div class="day-selector">
-                    ${days.map(day => `
-                        <button
-                            class="day-btn ${this.selectedDay === day ? 'active' : ''} ${this.isToday(day) ? 'today' : ''}"
-                            data-day="${day}"
-                            onclick="weeklyMenu.selectDay('${day}')">
-                            ${this.isToday(day) ? '<span class="today-badge">Heute</span>' : '<span class="day-short">${this.getDayNameShort(day)}</span>'}
-                            <span class="day-date">${this.getDateForDay(day)}</span>
-                        </button>
-                    `).join('')}
+                    ${days.map(day => {
+                        const isToday = this.isToday(day);
+                        const isActive = this.selectedDay === day;
+                        const dayShort = this.getDayNameShort(day);
+                        const dayDate = this.getDateForDay(day);
+
+                        return `
+                            <button
+                                class="day-btn ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}"
+                                data-day="${day}"
+                                onclick="weeklyMenu.selectDay('${day}')">
+                                ${isToday ? '<span class="today-badge">Heute</span>' : `<span class="day-short">${dayShort}</span>`}
+                                <span class="day-date">${dayDate}</span>
+                            </button>
+                        `;
+                    }).join('')}
                 </div>
 
                 <!-- Dishes Display -->
