@@ -41,13 +41,24 @@ class MenuManager {
     }
 
     setupEventListeners() {
-        // Category Filter Buttons
+        // Category Filter Buttons - Scroll to category instead of filtering
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                this.currentCategory = e.target.dataset.category;
-                this.renderMenu();
+
+                const categoryId = e.target.dataset.category;
+
+                if (categoryId === 'all') {
+                    // Scroll to top of menu
+                    document.getElementById('menu-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    // Scroll to specific category
+                    const categorySection = document.getElementById(`category-${categoryId}`);
+                    if (categorySection) {
+                        categorySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
             });
         });
 
@@ -108,18 +119,15 @@ class MenuManager {
         let html = '';
         let totalVisible = 0;
 
-        const categoriesToShow = this.currentCategory === 'all'
-            ? this.menuData.categories
-            : this.menuData.categories.filter(cat => cat.id === this.currentCategory);
-
-        categoriesToShow.forEach(category => {
+        // Always show all categories (no filtering by category)
+        this.menuData.categories.forEach(category => {
             const filteredDishes = this.filterDishes(category.dishes);
 
             if (filteredDishes.length === 0) return;
 
-            // Category Header
+            // Category Header with ID for scrolling
             html += `
-                <div class="category-header">
+                <div id="category-${category.id}" class="category-header">
                     <span class="category-icon">${category.icon}</span>
                     <h2>${category.name}</h2>
                 </div>
