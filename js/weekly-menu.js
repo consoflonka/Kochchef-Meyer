@@ -114,8 +114,16 @@ class WeeklyMenuManager {
     }
 
     isToday(dayKey) {
-        const today = new Date();
-        const todayStr = today.toISOString().split('T')[0];
+        // Deutsche Zeit verwenden
+        const now = new Date();
+        const germanTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));
+
+        // Nach 15:00 Uhr einen Tag vorspringen (Restaurant geschlossen)
+        if (germanTime.getHours() >= 15) {
+            germanTime.setDate(germanTime.getDate() + 1);
+        }
+
+        const todayStr = germanTime.toISOString().split('T')[0];
 
         if (!this.currentWeek) return false;
 
@@ -126,6 +134,19 @@ class WeeklyMenuManager {
         date.setDate(startDate.getDate() + dayIndex);
 
         return date.toISOString().split('T')[0] === todayStr;
+    }
+
+    getTodayBadgeText() {
+        // Deutsche Zeit verwenden
+        const now = new Date();
+        const germanTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Berlin' }));
+
+        // Nach 15:00 Uhr zeigen wir "Morgen" statt "Heute"
+        if (germanTime.getHours() >= 15) {
+            return 'Morgen';
+        } else {
+            return 'Heute';
+        }
     }
 
     renderWeeklyMenu() {
@@ -158,13 +179,14 @@ class WeeklyMenuManager {
                         const isActive = this.selectedDay === day;
                         const dayShort = this.getDayNameShort(day);
                         const dayDate = this.getDateForDay(day);
+                        const badgeText = this.getTodayBadgeText();
 
                         return `
                             <button
                                 class="day-btn ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}"
                                 data-day="${day}"
                                 onclick="weeklyMenu.selectDay('${day}')">
-                                ${isToday ? '<span class="today-badge">Heute</span>' : `<span class="day-short">${dayShort}</span>`}
+                                ${isToday ? `<span class="today-badge">${badgeText}</span>` : `<span class="day-short">${dayShort}</span>`}
                                 <span class="day-date">${dayDate}</span>
                             </button>
                         `;
