@@ -186,7 +186,8 @@ class WeeklyMenuManager {
                                 class="day-btn ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}"
                                 data-day="${day}"
                                 onclick="weeklyMenu.selectDay('${day}')">
-                                ${isToday ? `<span class="today-badge">${badgeText}</span>` : `<span class="day-short">${dayShort}</span>`}
+                                ${isToday ? `<span class="today-badge">${badgeText}</span>` : ''}
+                                <span class="day-short">${dayShort}</span>
                                 <span class="day-date">${dayDate}</span>
                             </button>
                         `;

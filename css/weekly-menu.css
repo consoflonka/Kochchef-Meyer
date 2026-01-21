@@ -79,7 +79,7 @@
 .day-btn {
     flex: 1;
     min-width: 80px;
-    padding: 18px 10px 12px 10px;
+    padding: 24px 10px 12px 10px;
     background: #f8f9fa;
     border: 2px solid transparent;
     border-radius: 10px;
@@ -120,16 +120,17 @@
 
 .today-badge {
     position: absolute;
-    top: 3px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--secondary-color);
     color: var(--white);
-    font-size: 0.65rem;
-    padding: 3px 8px;
-    border-radius: 10px;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 8px;
     font-weight: 700;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 /* Dishes Display */
