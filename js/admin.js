@@ -539,10 +539,10 @@ class AdminPanel {
 
         this.currentDayKey = dayKey;
         this.selectedDishes = [];
-        this.openAddDishModal();
+        this.openDishSelectionModal();
     }
 
-    openAddDishModal() {
+    openDishSelectionModal() {
         // Kategorie-Buttons generieren
         const filterCategories = document.querySelector('.filter-categories');
         let categoryHtml = '<button class="filter-btn active" data-category="all" onclick="admin.filterCateringDishes(\'all\')">Alle</button>';
@@ -564,7 +564,7 @@ class AdminPanel {
         document.getElementById('add-dish-modal').classList.add('active');
     }
 
-    closeAddDishModal() {
+    closeDishSelectionModal() {
         document.getElementById('add-dish-modal').classList.remove('active');
         this.selectedDishes = [];
     }
@@ -699,7 +699,7 @@ class AdminPanel {
 
         this.saveWeeklyMenu();
         this.renderWeeklyPlan();
-        this.closeAddDishModal();
+        this.closeDishSelectionModal();
 
         this.showToast(`${this.selectedDishes.length} Gericht${this.selectedDishes.length > 1 ? 'e' : ''} hinzugefügt!`, 'success');
     }
