@@ -228,6 +228,45 @@
         </div>
     </div>
 
+    <!-- Modal für Gericht zum Wochenplan hinzufügen -->
+    <div id="add-dish-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Gerichte hinzufügen</h3>
+                <button class="modal-close" onclick="admin.closeAddDishModal()">&times;</button>
+            </div>
+            <div class="add-dish-modal-body">
+                <!-- Filter Bar -->
+                <div class="catering-filter-bar">
+                    <div class="filter-categories">
+                        <button class="filter-btn active" data-category="all" onclick="admin.filterCateringDishes('all')">Alle</button>
+                    </div>
+                    <input type="text" id="catering-search" placeholder="Gericht suchen..." oninput="admin.filterCateringDishes()">
+                    <div class="filter-checkboxes">
+                        <label><input type="checkbox" id="filter-veg" onchange="admin.filterCateringDishes()"> 🥬 Vegetarisch</label>
+                        <label><input type="checkbox" id="filter-spicy" onchange="admin.filterCateringDishes()"> 🌶️ Pikant</label>
+                    </div>
+                </div>
+
+                <!-- Selected Dishes Counter -->
+                <div class="selected-dishes-info">
+                    <span id="selected-count">0</span> Gerichte ausgewählt
+                </div>
+
+                <!-- Dishes Grid -->
+                <div id="catering-dishes-grid" class="catering-dishes-grid">
+                    <!-- Gerichte werden per JS geladen -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="admin.closeAddDishModal()">Abbrechen</button>
+                <button type="button" class="btn btn-primary" onclick="admin.confirmAddDishes()">
+                    <span id="add-dishes-btn-text">Ausgewählte hinzufügen</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 

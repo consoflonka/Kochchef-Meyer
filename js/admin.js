@@ -8,6 +8,8 @@ class AdminPanel {
         this.menuData = null;
         this.weeklyData = null;
         this.selectedWeek = null;
+        this.selectedDishes = [];
+        this.currentDayKey = null;
         this.init();
     }
 
@@ -535,35 +537,171 @@ class AdminPanel {
     addDishToDay(dayKey) {
         if (!this.selectedWeek || !this.menuData) return;
 
-        // Erstelle eine Liste aller Gerichte
-        let allDishes = [];
+        this.currentDayKey = dayKey;
+        this.selectedDishes = [];
+        this.openAddDishModal();
+    }
+
+    openAddDishModal() {
+        // Kategorie-Buttons generieren
+        const filterCategories = document.querySelector('.filter-categories');
+        let categoryHtml = '<button class="filter-btn active" data-category="all" onclick="admin.filterCateringDishes(\'all\')">Alle</button>';
+
         this.menuData.categories.forEach(cat => {
-            cat.dishes.forEach(dish => {
-                allDishes.push({
-                    ...dish,
-                    categoryName: cat.name
-                });
+            categoryHtml += `<button class="filter-btn" data-category="${cat.id}" onclick="admin.filterCateringDishes('${cat.id}')">${cat.icon} ${cat.name}</button>`;
+        });
+
+        filterCategories.innerHTML = categoryHtml;
+
+        // Gerichte anzeigen
+        this.renderCateringDishes();
+
+        // Reset
+        this.selectedDishes = [];
+        this.updateSelectedCount();
+
+        // Modal öffnen
+        document.getElementById('add-dish-modal').classList.add('active');
+    }
+
+    closeAddDishModal() {
+        document.getElementById('add-dish-modal').classList.remove('active');
+        this.selectedDishes = [];
+    }
+
+    renderCateringDishes(categoryFilter = 'all', searchQuery = '', vegOnly = false, spicyOnly = false) {
+        const container = document.getElementById('catering-dishes-grid');
+        if (!container) return;
+
+        let html = '';
+
+        this.menuData.categories.forEach(category => {
+            if (categoryFilter !== 'all' && category.id !== categoryFilter) return;
+
+            category.dishes.forEach(dish => {
+                // Filter anwenden
+                if (searchQuery && !dish.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                    !dish.ingredients.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    return;
+                }
+                if (vegOnly && !dish.vegetarian) return;
+                if (spicyOnly && !dish.spicy) return;
+
+                const isSelected = this.selectedDishes.some(d => d.id === dish.id && d.categoryId === category.id);
+
+                html += `
+                    <div class="catering-dish-card ${isSelected ? 'selected' : ''}"
+                         data-dish-id="${dish.id}"
+                         data-category-id="${category.id}"
+                         onclick="admin.toggleDishSelection('${category.id}', ${dish.id})">
+                        <div class="dish-header">
+                            <span class="dish-name">${dish.name}</span>
+                            <span class="dish-price">${dish.price.toFixed(2)} €</span>
+                        </div>
+                        <div class="dish-category">${category.icon} ${category.name}</div>
+                        <div class="dish-badges">
+                            ${dish.vegetarian ? '<span class="badge badge-veg">🥬 Vegetarisch</span>' : ''}
+                            ${dish.spicy ? '<span class="badge badge-spicy">🌶️ Pikant</span>' : ''}
+                        </div>
+                        <div class="dish-ingredients">${dish.ingredients}</div>
+                    </div>
+                `;
             });
         });
 
-        // Einfaches Prompt für die Demo (in Produktion: Modal mit Suche)
-        const dishNames = allDishes.map((d, i) => `${i + 1}. ${d.name} (${d.categoryName}) - ${d.price.toFixed(2)}€`).join('\n');
-        const selection = prompt(`Gericht auswählen (Nummer eingeben):\n\n${dishNames.substring(0, 1000)}...`);
+        container.innerHTML = html || '<div style="padding: 40px; text-align: center; color: #666;">Keine Gerichte gefunden</div>';
+    }
 
-        if (selection) {
-            const index = parseInt(selection) - 1;
-            if (index >= 0 && index < allDishes.length) {
-                const selectedDish = allDishes[index];
-
-                if (!this.selectedWeek.days[dayKey]) {
-                    this.selectedWeek.days[dayKey] = [];
+    filterCateringDishes(categoryId = null) {
+        // Aktive Kategorie updaten
+        if (categoryId) {
+            document.querySelectorAll('.catering-filter-bar .filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === categoryId) {
+                    btn.classList.add('active');
                 }
+            });
+        }
 
-                this.selectedWeek.days[dayKey].push(selectedDish);
-                this.saveWeeklyMenu();
-                this.renderWeeklyPlan();
+        const activeCategory = document.querySelector('.catering-filter-bar .filter-btn.active')?.dataset.category || 'all';
+        const searchQuery = document.getElementById('catering-search')?.value || '';
+        const vegOnly = document.getElementById('filter-veg')?.checked || false;
+        const spicyOnly = document.getElementById('filter-spicy')?.checked || false;
+
+        this.renderCateringDishes(activeCategory, searchQuery, vegOnly, spicyOnly);
+    }
+
+    toggleDishSelection(categoryId, dishId) {
+        const existingIndex = this.selectedDishes.findIndex(d => d.id === dishId && d.categoryId === categoryId);
+
+        if (existingIndex > -1) {
+            // Entfernen
+            this.selectedDishes.splice(existingIndex, 1);
+        } else {
+            // Hinzufügen
+            const category = this.menuData.categories.find(c => c.id === categoryId);
+            const dish = category?.dishes.find(d => d.id === dishId);
+
+            if (dish) {
+                this.selectedDishes.push({
+                    ...dish,
+                    categoryId: categoryId,
+                    categoryName: category.name
+                });
             }
         }
+
+        // UI aktualisieren
+        const card = document.querySelector(`.catering-dish-card[data-dish-id="${dishId}"][data-category-id="${categoryId}"]`);
+        if (card) {
+            card.classList.toggle('selected');
+        }
+
+        this.updateSelectedCount();
+    }
+
+    updateSelectedCount() {
+        const countEl = document.getElementById('selected-count');
+        const btnText = document.getElementById('add-dishes-btn-text');
+
+        if (countEl) {
+            countEl.textContent = this.selectedDishes.length;
+        }
+
+        if (btnText) {
+            btnText.textContent = this.selectedDishes.length > 0
+                ? `${this.selectedDishes.length} Gericht${this.selectedDishes.length > 1 ? 'e' : ''} hinzufügen`
+                : 'Ausgewählte hinzufügen';
+        }
+    }
+
+    confirmAddDishes() {
+        if (this.selectedDishes.length === 0) {
+            this.showToast('Bitte wähle mindestens ein Gericht aus', 'error');
+            return;
+        }
+
+        if (!this.selectedWeek.days[this.currentDayKey]) {
+            this.selectedWeek.days[this.currentDayKey] = [];
+        }
+
+        // Ausgewählte Gerichte hinzufügen
+        this.selectedDishes.forEach(dish => {
+            this.selectedWeek.days[this.currentDayKey].push({
+                id: dish.id,
+                name: dish.name,
+                price: dish.price,
+                ingredients: dish.ingredients,
+                vegetarian: dish.vegetarian,
+                spicy: dish.spicy
+            });
+        });
+
+        this.saveWeeklyMenu();
+        this.renderWeeklyPlan();
+        this.closeAddDishModal();
+
+        this.showToast(`${this.selectedDishes.length} Gericht${this.selectedDishes.length > 1 ? 'e' : ''} hinzugefügt!`, 'success');
     }
 
     removeDishFromDay(dayKey, index) {
